@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.com.google.devtools.ksp)
+    alias(libs.plugins.com.google.dagger.hilt.android)
+
 }
 
 android {
@@ -49,8 +52,16 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    // #Retrofit
     implementation(libs.com.squareup.retrofit2.retrofit)
     implementation(libs.com.squareup.okhttp3.okhttp)
+    implementation(libs.com.squareup.okhttp3.loggininterceptor)
+    implementation(libs.com.squareup.retrofit2.converter.gson)
+    //#Hilt
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.com.google.dagger.hilt.android)
+    ksp(libs.com.google.dagger.hilt.android.compiler)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
