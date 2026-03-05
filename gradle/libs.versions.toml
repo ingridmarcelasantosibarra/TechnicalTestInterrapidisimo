@@ -16,6 +16,7 @@ comp-hiltNavigationComposeVersion = "1.2.0"
 hilt-version = "2.52"
 #Plugins
 plug-google-devtools-ksp = "2.0.0-1.0.24"
+navigationCompose = "2.9.7"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -32,6 +33,8 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+
 #Retrofit
 com-squareup-retrofit2-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit-version" }
 com-squareup-okhttp3-loggininterceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "retrofit-okHttpVersion" }
@@ -47,4 +50,6 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt-version" }
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "plug-google-devtools-ksp" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
 

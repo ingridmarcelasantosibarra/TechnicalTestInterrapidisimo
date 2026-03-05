@@ -1,4 +1,4 @@
-package com.interrapidisimo.technical.data.remote.repository
+package com.interrapidisimo.technical.domain.repository
 
 import com.interrapidisimo.technical.core.utils.Resource
 import com.interrapidisimo.technical.domain.model.User

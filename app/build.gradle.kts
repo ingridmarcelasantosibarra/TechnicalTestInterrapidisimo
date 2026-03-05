@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.com.google.dagger.hilt.android)
+    alias(libs.plugins.kotlinx.serialization)
+
 
 }
 
@@ -16,7 +18,7 @@ android {
         minSdk = 28
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -60,6 +62,8 @@ dependencies {
     //#Hilt
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.com.google.dagger.hilt.android)
+    implementation(libs.androidx.navigation.compose)
+
     ksp(libs.com.google.dagger.hilt.android.compiler)
 
     testImplementation(libs.junit)

@@ -4,7 +4,6 @@ import com.interrapidisimo.technical.core.utils.Constants.AUTHENTICATE_USER_END_
 import com.interrapidisimo.technical.core.utils.Constants.VALIDATE_VERSION_END_POINT
 import com.interrapidisimo.technical.data.remote.dto.LoginRequestDto
 import com.interrapidisimo.technical.data.remote.dto.LoginResponseDto
-import com.interrapidisimo.technical.data.remote.dto.VersionDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -13,7 +12,7 @@ import retrofit2.http.POST
 
 interface SecurityApi {
     @GET(VALIDATE_VERSION_END_POINT)
-    suspend fun getAppVersion(): Response<VersionDto>
+    suspend fun getAppVersion(): Response<String>
 
     @POST(AUTHENTICATE_USER_END_POINT)
     suspend fun login(
