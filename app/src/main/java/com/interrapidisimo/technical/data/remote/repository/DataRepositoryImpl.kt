@@ -1,5 +1,6 @@
 package com.interrapidisimo.technical.data.remote.repository
 
+import com.interrapidisimo.technical.core.network.ApiResult
 import com.interrapidisimo.technical.core.network.safeApiCall
 import com.interrapidisimo.technical.core.utils.Resource
 import com.interrapidisimo.technical.data.local.dao.TableDao
@@ -17,7 +18,7 @@ class DataRepositoryImpl @Inject constructor(
     override suspend fun fetchAndStoreTables(): Resource<Unit> {
         return safeApiCall { dataApi.getTables() }.let { result ->
             when (result) {
-                is Resource.Success -> {
+                is ApiResult.Success -> {
                     try {
                         val entities = result.data.map { it.toEntity() }
                         tablesDao.replaceAll(entities)
@@ -26,8 +27,7 @@ class DataRepositoryImpl @Inject constructor(
                         Resource.Error("Error al guardar en base de datos: ${e.localizedMessage}")
                     }
                 }
-                is Resource.Error -> result
-                is Resource.Loading -> result
+                is ApiResult.Error -> Resource.Error(result.message)
             }
         }    }
 

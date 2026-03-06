@@ -10,24 +10,31 @@ import java.io.IOException
  * returning a Resource based on the result.
  * Applies the DRY principle: exception handling is centralized here.
  */
-suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Resource<T> {
+suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): ApiResult<T> {
     return try {
         val response = apiCall()
-        when {
-            response.isSuccessful && response.body() != null -> {
-                Resource.Success(response.body()!!)
-            }
-
-            response.code() == 401 -> Resource.Error("No autorizado (401)")
-            response.code() == 404 -> Resource.Error("Recurso no encontrado (404)")
-            response.code() == 500 -> Resource.Error("Error interno del servidor (500)")
-            else -> Resource.Error("Error HTTP: ${response.code()} - ${response.message()}")
+        if (response.isSuccessful && response.body() != null) {
+            ApiResult.Success(response.body()!!)
+        } else {
+            ApiResult.Error(mapHttpError(response.code(), response.message()))
         }
     } catch (e: HttpException) {
-        Resource.Error("Error HTTP: ${e.message()}")
+        ApiResult.Error("Error HTTP: ${e.message()}")
     } catch (e: IOException) {
-        Resource.Error("Sin conexión a internet. Verifica tu red")
+        ApiResult.Error("Sin conexión a internet. Verifica tu red")
     } catch (e: Exception) {
-        Resource.Error("Error inesperado: ${e.localizedMessage}")
+        ApiResult.Error("Error inesperado: ${e.localizedMessage}")
     }
+}
+
+private fun mapHttpError(code: Int, message: String): String = when (code) {
+    401 -> "No autorizado (401)"
+    404 -> "Recurso no encontrado (404)"
+    500 -> "Error interno del servidor (500)"
+    else -> "Error HTTP: $code - $message"
+}
+
+sealed interface ApiResult<out T> {
+    data class Success<T>(val data: T) : ApiResult<T>
+    data class Error(val message: String) : ApiResult<Nothing>
 }

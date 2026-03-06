@@ -4,7 +4,9 @@ data class AppVersion(
     val remoteVersion: String,
     val localVersion: String
 ) {
-    fun isOutdated(): Boolean = localVersion < remoteVersion
-    fun isNewer(): Boolean = localVersion > remoteVersion
-    fun isUpToDate(): Boolean = localVersion == remoteVersion
+    private fun safeToInt(value: String): Int =
+        value.filter { it.isDigit() }.toIntOrNull() ?: 0
+
+    fun isOutdated(): Boolean = safeToInt(localVersion) < safeToInt(remoteVersion)
+    fun isNewer(): Boolean = safeToInt(localVersion) > safeToInt(remoteVersion)
 }

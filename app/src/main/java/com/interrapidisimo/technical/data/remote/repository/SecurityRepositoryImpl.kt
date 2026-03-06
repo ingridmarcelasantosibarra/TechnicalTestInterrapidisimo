@@ -1,5 +1,6 @@
 package com.interrapidisimo.technical.data.remote.repository
 
+import com.interrapidisimo.technical.core.network.ApiResult
 import com.interrapidisimo.technical.core.network.safeApiCall
 import com.interrapidisimo.technical.core.utils.Resource
 import com.interrapidisimo.technical.data.local.dao.UserDao
@@ -16,9 +17,8 @@ class SecurityRepositoryImpl @Inject constructor(
     override suspend fun getRemoteVersion(): Resource<String> {
         return safeApiCall { securityApi.getAppVersion() }.let { result ->
             when (result) {
-                is Resource.Success -> Resource.Success(result.data.ifEmpty { "0.0.0" })
-                is Resource.Error -> result
-                is Resource.Loading -> result
+                is ApiResult.Success -> Resource.Success(result.data.ifEmpty { "0.0.0" })
+                is ApiResult.Error -> Resource.Error(result.message)
             }
         }
     }
@@ -28,7 +28,7 @@ class SecurityRepositoryImpl @Inject constructor(
             securityApi.login(body = LoginRequestDto())
         }
         return when (result) {
-            is Resource.Success -> {
+            is ApiResult.Success -> {
                 val dto = result.data
                 val user = User(
                     usuario = dto.usuario ?: "",
@@ -39,8 +39,7 @@ class SecurityRepositoryImpl @Inject constructor(
                 Resource.Success(user)
             }
 
-            is Resource.Error -> result
-            is Resource.Loading -> result
+            is ApiResult.Error ->  Resource.Error(result.message)
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.interrapidisimo.technical.data.remote.repository
 
+import com.interrapidisimo.technical.core.network.ApiResult
 import com.interrapidisimo.technical.core.network.safeApiCall
 import com.interrapidisimo.technical.core.utils.Resource
 import com.interrapidisimo.technical.data.remote.api.DataApi
@@ -14,15 +15,14 @@ class LocalitiesRepositoryImpl @Inject constructor(
     override suspend fun getLocalities(): Resource<List<Locality>> {
         return safeApiCall { dataApi.getLocalities() }.let { result ->
             when (result) {
-                is Resource.Success -> {
+                is ApiResult.Success -> {
                     val localities = result.data.map {
                         it.toDomain()
                     }
                     Resource.Success(localities)
                 }
 
-                is Resource.Error -> result
-                is Resource.Loading -> result
+                is ApiResult.Error ->  Resource.Error(result.message)
             }
         }
     }
