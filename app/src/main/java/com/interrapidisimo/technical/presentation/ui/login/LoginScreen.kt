@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -66,7 +68,17 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(32.dp))
         Text("Iniciar Sesión", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(24.dp))
+        when (val s = loginState) {
+            is Resource.Loading -> CircularProgressIndicator()
+            is Resource.Error -> {
+                Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFFFEBEE))) {
+                    Text("❌ ${s.message}", modifier = Modifier.padding(12.dp), color = Color.Red)
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
 
+            else -> {}
+        }
         Button(
             onClick = { viewModel.login() },
             enabled = loginState !is Resource.Loading,

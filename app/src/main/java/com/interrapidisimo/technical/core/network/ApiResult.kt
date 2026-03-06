@@ -10,13 +10,14 @@ import java.io.IOException
  * returning a Resource based on the result.
  * Applies the DRY principle: exception handling is centralized here.
  */
-suspend fun <T>safeApiCall(apiCall: suspend ()  -> Response<T>): Resource<T> {
+suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Resource<T> {
     return try {
         val response = apiCall()
         when {
             response.isSuccessful && response.body() != null -> {
-            Resource.Success(response.body()!!)
-        }
+                Resource.Success(response.body()!!)
+            }
+
             response.code() == 401 -> Resource.Error("No autorizado (401)")
             response.code() == 404 -> Resource.Error("Recurso no encontrado (404)")
             response.code() == 500 -> Resource.Error("Error interno del servidor (500)")

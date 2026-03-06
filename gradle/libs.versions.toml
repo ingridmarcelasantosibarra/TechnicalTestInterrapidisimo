@@ -17,6 +17,8 @@ hilt-version = "2.52"
 #Plugins
 plug-google-devtools-ksp = "2.0.0-1.0.24"
 navigationCompose = "2.9.7"
+room = "2.8.1"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -44,6 +46,10 @@ com-squareup-retrofit2-converter-gson = { group = "com.squareup.retrofit2", name
 com-google-dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt-version" }
 com-google-dagger-hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt-version" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "comp-hiltNavigationComposeVersion" }
+#Room
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

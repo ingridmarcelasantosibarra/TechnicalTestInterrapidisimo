@@ -1,9 +1,11 @@
 package com.interrapidisimo.technical.core.di
 
 import com.interrapidisimo.technical.data.remote.repository.AppInfoProviderImpl
+import com.interrapidisimo.technical.data.remote.repository.HomeLocalRepositoryImpl
 import com.interrapidisimo.technical.domain.repository.SecurityRepository
 import com.interrapidisimo.technical.data.remote.repository.SecurityRepositoryImpl
 import com.interrapidisimo.technical.domain.repository.AppInfoProvider
+import com.interrapidisimo.technical.domain.repository.HomeLocalRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,6 +18,10 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindSecurityRepo(impl: SecurityRepositoryImpl): SecurityRepository
+
+    @Binds
+    @Singleton
+    abstract fun homeLocalRepository(impl: HomeLocalRepositoryImpl): HomeLocalRepository
 }
 
 @Module
