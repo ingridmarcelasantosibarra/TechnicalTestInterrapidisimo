@@ -18,16 +18,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.interrapidisimo.technical.presentation.viewmodel.DataViewModel
 import com.interrapidisimo.technical.presentation.viewmodel.HomeViewModel
 
 @Composable
 fun HomeScreen(
     onTablesClick: () -> Unit,
     onLocalitiesClick: () -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    dataViewModel: DataViewModel = hiltViewModel()
 ) {
     val user by viewModel.user.collectAsStateWithLifecycle()
-
+    val tables by dataViewModel.uiState.collectAsStateWithLifecycle()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -43,14 +45,16 @@ fun HomeScreen(
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text("Usuario: ${it.usuario}")
                     Text("Identificación: ${it.identificacion ?: ""}")
-                    Text(" Nombre: ${it.nombre}")
+                    Text("Nombre: ${it.nombre}")
                 }
             }
         }
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Button(onClick = onTablesClick, modifier = Modifier.fillMaxWidth()) {
+        Button(onClick = {
+            onTablesClick()
+        }, modifier = Modifier.fillMaxWidth()) {
             Text("Tablas")
         }
         Spacer(modifier = Modifier.height(12.dp))

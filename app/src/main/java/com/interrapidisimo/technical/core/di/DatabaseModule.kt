@@ -3,6 +3,7 @@ package com.interrapidisimo.technical.core.di
 import android.content.Context
 import androidx.room.Room
 import com.interrapidisimo.technical.core.database.AppDatabase
+import com.interrapidisimo.technical.data.local.dao.TableDao
 import com.interrapidisimo.technical.data.local.dao.UserDao
 import dagger.Module
 import dagger.Provides
@@ -21,4 +22,5 @@ object DatabaseModule {
             .fallbackToDestructiveMigration(false)
             .build()
     @Provides fun provideUserDao(db: AppDatabase): UserDao = db.userDao()
+    @Provides fun provideTableDao(db: AppDatabase): TableDao = db.tableDao()
 }
