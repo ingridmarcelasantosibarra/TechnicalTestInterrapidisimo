@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.interrapidisimo.technical.presentation.ui.home.HomeScreen
+import com.interrapidisimo.technical.presentation.ui.localitie.LocalitiesScreen
 import com.interrapidisimo.technical.presentation.ui.login.LoginScreen
 import com.interrapidisimo.technical.presentation.ui.table.TablasScreen
 
@@ -32,15 +33,18 @@ fun AppNavigationHost(
         composable<Home> {
             HomeScreen(
                 onLocalitiesClick = {
-
+                    navController.navigate(LocalitiesRoute)
                 }, onTablesClick = {
-                    navController.navigate(Tablas)
+                    navController.navigate(TableRoute)
                 }
             )
         }
 
-        composable<Tablas> {
+        composable<TableRoute> {
             TablasScreen()
+        }
+        composable<LocalitiesRoute> {
+            LocalitiesScreen()
         }
     }
 }

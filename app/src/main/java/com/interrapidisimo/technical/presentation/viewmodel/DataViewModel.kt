@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.interrapidisimo.technical.core.utils.Resource
 import com.interrapidisimo.technical.domain.model.Tabla
 import com.interrapidisimo.technical.domain.usecase.FetchTablesUseCase
-import com.interrapidisimo.technical.domain.usecase.GetLocalTablesUseCase
+import com.interrapidisimo.technical.domain.usecase.LocalTablesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DataViewModel @Inject constructor(
     private val fetchTablesUseCase: FetchTablesUseCase,
-    private val getLocalTablesUseCase: GetLocalTablesUseCase
+    private val localTablesUseCase: LocalTablesUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(TablesUiState())
     val uiState: StateFlow<TablesUiState> = _uiState.asStateFlow()
@@ -30,7 +30,7 @@ class DataViewModel @Inject constructor(
     }
 
     private fun observeLocalTables() {
-        getLocalTablesUseCase()
+        localTablesUseCase()
             .onEach { tablas ->
                 _uiState.update {
                     it.copy(tablas = tablas, isLoading = false)

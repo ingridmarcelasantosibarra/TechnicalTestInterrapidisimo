@@ -4,7 +4,6 @@ import com.interrapidisimo.technical.core.network.safeApiCall
 import com.interrapidisimo.technical.core.utils.Resource
 import com.interrapidisimo.technical.data.local.dao.TableDao
 import com.interrapidisimo.technical.data.remote.api.DataApi
-import com.interrapidisimo.technical.domain.model.Localidad
 import com.interrapidisimo.technical.domain.model.Tabla
 import com.interrapidisimo.technical.domain.repository.DataRepository
 import kotlinx.coroutines.flow.Flow
@@ -38,7 +37,4 @@ class DataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getLocalities(): Resource<List<Localidad>> {
-        TODO("Not yet implemented")
-    }
 }

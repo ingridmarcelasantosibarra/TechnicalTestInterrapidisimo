@@ -9,7 +9,7 @@ data object Home
 data object Login
 
 @Serializable
-data object Tablas
+data object TableRoute
 
 @Serializable
-data object Localities
+data object LocalitiesRoute

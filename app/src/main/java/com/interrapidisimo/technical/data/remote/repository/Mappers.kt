@@ -2,9 +2,9 @@ package com.interrapidisimo.technical.data.remote.repository
 
 import com.interrapidisimo.technical.data.local.entity.TablaEntity
 import com.interrapidisimo.technical.data.local.entity.UserEntity
-import com.interrapidisimo.technical.data.remote.dto.LocalidadDto
+import com.interrapidisimo.technical.data.remote.dto.LocalityDto
 import com.interrapidisimo.technical.data.remote.dto.TablaDto
-import com.interrapidisimo.technical.domain.model.Localidad
+import com.interrapidisimo.technical.domain.model.Locality
 import com.interrapidisimo.technical.domain.model.Tabla
 import com.interrapidisimo.technical.domain.model.User
 
@@ -36,7 +36,7 @@ fun TablaEntity.toDomain() = Tabla(
     numeroCampos = numeroCampos
 )
 
-fun LocalidadDto.toDomain() = Localidad(
+fun LocalityDto.toDomain() = Locality(
     abreviacion = abreviacionCiudad ?: "",
     nombreCompleto = nombreCompleto ?: ""
 )
