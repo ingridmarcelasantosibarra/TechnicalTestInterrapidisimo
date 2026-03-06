@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.interrapidisimo.technical.core.utils.Resource
 import com.interrapidisimo.technical.presentation.viewmodel.LoginViewModel
 
 @Composable
@@ -31,12 +30,15 @@ fun LoginScreen(
     onLoginSuccess: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-    val versionState by viewModel.versionState.collectAsStateWithLifecycle()
-    val loginState by viewModel.loginState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(loginState) {
-        if (loginState is Resource.Success) onLoginSuccess()
+    LaunchedEffect(uiState.isLoginSuccess) {
+        if (uiState.isLoginSuccess) {
+            onLoginSuccess()
+            viewModel.onLoginNavigated()
+        }
     }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,43 +47,36 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center
     ) {
 
-        when (val v = versionState) {
-            is Resource.Success -> {
-                val version = v.data
-                val (msg, color) = when {
-                    version.isOutdated() -> "⚠️ Tu versión (${version.localVersion}) está desactualizada. Última: ${version.remoteVersion}" to Color(
-                        0xFFF57C00
-                    )
-
-                    version.isNewer() -> "ℹ️ Versión local (${version.localVersion}) más nueva que la remota." to Color(
-                        0xFF1976D2
-                    )
-
-                    else -> "✅ App actualizada (${version.localVersion}) " to Color(0xFF388E3C)
-                }
-                Text(msg, color = color, style = MaterialTheme.typography.bodyMedium)
-            }
-
-            is Resource.Error -> Text("Error versión: ${v.message} ", color = Color.Red)
-            else -> CircularProgressIndicator(modifier = Modifier.size(16.dp))
+        when {
+            uiState.isVersionLoading -> CircularProgressIndicator(Modifier.size(16.dp))
+            uiState.versionError != null -> Text(
+                "Error versión: ${uiState.versionError}",
+                color = Color.Red
+            )
+            uiState.version != null && uiState.versionStatus != null ->
+                VersionBanner(uiState.version!!, uiState.versionStatus!!)
         }
-        Spacer(modifier = Modifier.height(32.dp))
+
+        Spacer(Modifier.height(32.dp))
         Text("Iniciar Sesión", style = MaterialTheme.typography.headlineMedium)
-        Spacer(modifier = Modifier.height(24.dp))
-        when (val s = loginState) {
-            is Resource.Loading -> CircularProgressIndicator()
-            is Resource.Error -> {
-                Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFFFEBEE))) {
-                    Text("❌ ${s.message}", modifier = Modifier.padding(12.dp), color = Color.Red)
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-            }
+        Spacer(Modifier.height(24.dp))
 
-            else -> {}
+        // Login error
+        uiState.loginError?.let { error ->
+            Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFFFEBEE))) {
+                Text("❌ $error", Modifier.padding(12.dp), color = Color.Red)
+            }
+            Spacer(Modifier.height(8.dp))
         }
+
+        // Login button
+        if (uiState.isLoginLoading) {
+            CircularProgressIndicator()
+        }
+
         Button(
             onClick = { viewModel.login() },
-            enabled = loginState !is Resource.Loading,
+            enabled = !uiState.isLoginLoading,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Ingresar")
