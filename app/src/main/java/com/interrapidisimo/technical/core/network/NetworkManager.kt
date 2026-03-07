@@ -11,10 +11,6 @@ object NetworkManager {
 
     private const val TIMEOUT_SECONDS = 30L
 
-    /**
-     * OkHttpClient with a logging interceptor for debugging.
-     * In production, the HttpLoggingInterceptor is removed.
-     */
     private val okHttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
             .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
@@ -26,7 +22,7 @@ object NetworkManager {
             .build()
     }
     /**
-     * Reusable Retrofit instance.
+     * Instancia de Retrofit reutilizable.
      */
     val retrofit: Retrofit by lazy {
         Retrofit.Builder()

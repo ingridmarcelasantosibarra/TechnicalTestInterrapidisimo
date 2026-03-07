@@ -1,8 +1,9 @@
 package com.interrapidisimo.technical.core.utils
 
 /**
- * Generic wrapper to represent the states of any asynchronous operation.
- * Loading → Success(data) or Error(message)
+ * Wrapper genérico para representar los estados de cualquier operación asíncrona.
+ * Loading → Success(data) o Error(message)
+ * Nivel capa de dominio
  */
 sealed class Resource<out T>{
     data object Loading : Resource<Nothing>()

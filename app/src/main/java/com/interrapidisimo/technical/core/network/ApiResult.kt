@@ -1,14 +1,13 @@
 package com.interrapidisimo.technical.core.network
 
-import com.interrapidisimo.technical.core.utils.Resource
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
 
 /**
- * Suspended function that wraps a Retrofit call inside a try/catch block,
- * returning a Resource based on the result.
- * Applies the DRY principle: exception handling is centralized here.
+ * Función suspendida que envuelve una llamada Retrofit en un try/catch,
+ * retornando un ApiResult según el resultado.
+ * El manejo de excepciones está centralizado aquí.
  */
 suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): ApiResult<T> {
     return try {
@@ -33,6 +32,7 @@ private fun mapHttpError(code: Int, message: String): String = when (code) {
     500 -> "Error interno del servidor (500)"
     else -> "Error HTTP: $code - $message"
 }
+
 
 sealed interface ApiResult<out T> {
     data class Success<T>(val data: T) : ApiResult<T>
